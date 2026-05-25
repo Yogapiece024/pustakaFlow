@@ -1,0 +1,1 @@
+// Admin circulation scanner logic

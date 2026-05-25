@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Library – PustakaFlow</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                    serif: ['Lora', 'serif'],
+                },
+                colors: {
+                    navy: {
+                        900: '#111827',
+                    },
+                    silver: {
+                        300: '#D1D5DB',
+                        400: '#9CA3AF',
+                    },
+                    mainbg: '#F9FAFB',
+                }
+            }
+        }
+    }
+  </script>
+</head>
+
+<body class="flex min-h-screen bg-mainbg font-sans">
+
+  <!-- ==================== Sidebar ==================== -->
+  <aside class="w-64 bg-navy-900 flex-shrink-0 flex flex-col border-r border-gray-800 shadow-lg">
+      <!-- Logo / Brand -->
+      <div class="h-16 flex items-center px-6 border-b border-gray-800">
+          <h1 class="text-silver-300 font-serif text-2xl font-semibold tracking-wide">PustakaFlow</h1>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+          <a href="index.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+              <span class="text-sm font-medium">Dashboard</span>
+          </a>
+          <a href="catalog.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+              <span class="text-sm font-medium">Catalog</span>
+          </a>
+          <!-- Active State -->
+          <a href="my-library.html" class="nav-link flex items-center px-4 py-3 text-white bg-gray-800 rounded-md">
+              <span class="text-sm font-medium">My Library</span>
+          </a>
+          <a href="admin-scanner.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+              <span class="text-sm font-medium">Admin Portal</span>
+          </a>
+      </nav>
+
+      <!-- Profile / Logout -->
+      <div class="p-4 border-t border-gray-800">
+          <div class="flex items-center gap-3 px-2">
+              <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-silver-300 font-serif font-bold text-sm border border-gray-600">
+                  A
+              </div>
+              <div class="flex flex-col">
+                  <span class="text-sm font-medium text-gray-300">Alex (Member)</span>
+                  <span class="text-xs text-gray-500 hover:text-gray-400 cursor-pointer transition-colors duration-200">Logout</span>
+              </div>
+          </div>
+      </div>
+  </aside>
+
+  <!-- ==================== Main Content ==================== -->
+  <main class="flex-1 flex flex-col overflow-y-auto bg-mainbg p-8">
+    <!-- Page Header -->
+    <header class="mb-6">
+      <h1 class="font-serif text-3xl text-navy-900" style="font-family: 'Lora', serif;">
+        My Library
+      </h1>
+    </header>
+
+    <!-- ======== Tabs ======== -->
+    <div class="mb-4 border-b border-gray-200">
+      <nav class="flex space-x-6">
+        <button id="tab-uploads"
+                class="tab-active text-navy-900 font-bold pb-2 border-b-4 border-navy-900 focus:outline-none">
+          My Uploads
+        </button>
+        <button id="tab-borrowed"
+                class="text-slate-500 pb-2 focus:outline-none">
+          Borrowed Books
+        </button>
+      </nav>
+    </div>
+
+    <!-- ======== Tab Panels ======== -->
+    <section id="content-uploads" class="tab-content">
+      <!-- Add New Book button -->
+      <div class="flex justify-end mb-4">
+        <button id="addBookBtn"
+                class="px-4 py-2 bg-navy-900 text-white rounded hover:bg-gray-800 transition-colors">
+          + Add New Book
+        </button>
+      </div>
+
+      <!-- Grid of uploaded books -->
+      <div id="uploadsGrid"
+           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Example Card (keep this as a template – it will be cloned by JS) -->
+        <div class="flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+          <div class="w-full h-40 bg-gray-300 rounded mb-3"></div>
+          <h3 class="font-medium text-gray-800">Uploaded Book Title</h3>
+          <p class="text-sm text-gray-500">Serial: USR-2026-001</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="content-borrowed"
+             class="tab-content hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Overdue Book Card -->
+        <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+          <div class="w-16 h-24 bg-gray-300 rounded"></div>
+          <div class="flex-1 ml-4">
+            <h3 class="font-medium text-gray-800">Overdue Book Title</h3>
+            <p class="text-sm text-gray-500">Due: 2023-12-01</p>
+            <span class="flex items-center text-red-600 mt-1">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a.75.75 0 00-1.5 0v4a.75.75 0 00.22.53l2.5 2.5a.75.75 0 001.06-1.06L10.75 11z"
+                      clip-rule="evenodd"/>
+              </svg>
+              Overdue
+            </span>
+          </div>
+        </div>
+
+        <!-- In‑Possession Book Card -->
+        <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+          <div class="w-16 h-24 bg-gray-300 rounded"></div>
+          <div class="flex-1 ml-4">
+            <h3 class="font-medium text-gray-800">Current Book Title</h3>
+            <p class="text-sm text-gray-500">Due: 2024-12-31</p>
+            <span class="text-slate-500 mt-1">In Possession</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== Scripts ==================== -->
+  <script src="js/global.js" defer></script>
+  <script src="js/my-library.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PustakaFlow - Borrowed Books</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        navy: {
+                            900: '#111827',
+                        },
+                        silver: {
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                        },
+                        mainbg: '#F9FAFB',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body class="flex h-screen overflow-hidden bg-mainbg text-gray-800">
+
+    <!-- Left Sidebar -->
+    <aside class="w-64 bg-navy-900 flex-shrink-0 flex flex-col border-r border-gray-800 shadow-lg">
+        <!-- Logo / Brand -->
+        <div class="h-16 flex items-center px-6 border-b border-gray-800">
+            <h1 class="text-silver-300 font-serif text-2xl font-semibold tracking-wide">PustakaFlow</h1>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            <a href="index.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+                <span class="text-sm font-medium">Dashboard</span>
+            </a>
+            <a href="catalog.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+                <span class="text-sm font-medium">Catalog</span>
+            </a>
+            <a href="my-library.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+                <span class="text-sm font-medium">My Library</span>
+            </a>
+            <a href="admin-scanner.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+                <span class="text-sm font-medium">Admin Portal</span>
+            </a>
+        </nav>
+
+        <!-- Profile / Logout -->
+        <div class="p-4 border-t border-gray-800">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-silver-300 font-serif font-bold text-sm border border-gray-600">
+                    A
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-gray-300">Alex (Member)</span>
+                    <span class="text-xs text-gray-500 hover:text-gray-400 cursor-pointer transition-colors duration-200">Logout</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-mainbg">
+        <!-- Topbar -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center px-8 justify-between shrink-0">
+            <div class="flex-1 max-w-md relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </span>
+                <input type="text"
+                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-slate-500 focus:ring-1 focus:ring-slate-500 sm:text-sm transition-colors duration-200"
+                    placeholder="Search borrowed books...">
+            </div>
+
+            <div class="ml-4 flex items-center gap-4">
+                <button class="text-slate-500 hover:text-slate-700 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                        </path>
+                    </svg>
+                </button>
+                <div class="relative">
+                    <button id="profileToggleBtn" class="focus:outline-none flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-medium text-sm border border-slate-300">
+                            JD
+                        </div>
+                    </button>
+                    <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-100 z-50 overflow-hidden">
+                        <div class="py-1">
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:text-navy-900 hover:bg-gray-100 transition-colors">Edit Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:text-navy-900 hover:bg-gray-100 transition-colors">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Scrollable Area -->
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-6xl mx-auto space-y-8">
+
+                <!-- Page Header -->
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-3xl font-serif font-medium text-navy-900">Borrowed Books</h2>
+                        <p class="text-sm text-gray-500 mt-1">Track your currently borrowed books and due dates.</p>
+                    </div>
+                    <!-- Summary Stats -->
+                    <div class="flex gap-4">
+                        <div class="bg-white rounded-lg border border-gray-100 shadow-sm px-5 py-3 text-center">
+                            <span class="block text-2xl font-serif font-semibold text-navy-900">5</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Active</span>
+                        </div>
+                        <div class="bg-white rounded-lg border border-rose-100 shadow-sm px-5 py-3 text-center">
+                            <span class="block text-2xl font-serif font-semibold text-rose-600">2</span>
+                            <span class="text-xs text-gray-500 font-medium uppercase tracking-wider">Overdue</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Borrowed Books Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-medium">
+                                <th class="px-6 py-4">Book</th>
+                                <th class="px-6 py-4">Serial Code</th>
+                                <th class="px-6 py-4">Borrowed On</th>
+                                <th class="px-6 py-4">Due Date</th>
+                                <th class="px-6 py-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm text-gray-700 divide-y divide-gray-100">
+
+                            <!-- Row 1 — Overdue -->
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-14 bg-gray-100 rounded flex items-center justify-center text-gray-300 flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">The Design of Everyday Things</p>
+                                            <p class="text-xs text-gray-500">Don Norman</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-xs text-gray-500">BK-2024-0041</td>
+                                <td class="px-6 py-4 text-gray-600">May 01, 2026</td>
+                                <td class="px-6 py-4 text-gray-600">May 15, 2026</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-rose-50 text-rose-700 border border-rose-100">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a.75.75 0 00-1.5 0v4a.75.75 0 00.22.53l2.5 2.5a.75.75 0 001.06-1.06L10.75 11z" clip-rule="evenodd"/></svg>
+                                        Overdue
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 — Overdue -->
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-14 bg-gray-100 rounded flex items-center justify-center text-gray-300 flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Thinking, Fast and Slow</p>
+                                            <p class="text-xs text-gray-500">Daniel Kahneman</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-xs text-gray-500">BK-2024-0078</td>
+                                <td class="px-6 py-4 text-gray-600">Apr 28, 2026</td>
+                                <td class="px-6 py-4 text-gray-600">May 12, 2026</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-rose-50 text-rose-700 border border-rose-100">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a.75.75 0 00-1.5 0v4a.75.75 0 00.22.53l2.5 2.5a.75.75 0 001.06-1.06L10.75 11z" clip-rule="evenodd"/></svg>
+                                        Overdue
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 — In Possession -->
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-14 bg-gray-100 rounded flex items-center justify-center text-gray-300 flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Clean Code</p>
+                                            <p class="text-xs text-gray-500">Robert C. Martin</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-xs text-gray-500">BK-2024-0112</td>
+                                <td class="px-6 py-4 text-gray-600">May 18, 2026</td>
+                                <td class="px-6 py-4 text-gray-600">Jun 01, 2026</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-200">
+                                        In Possession
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 — In Possession -->
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-14 bg-gray-100 rounded flex items-center justify-center text-gray-300 flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Atomic Habits</p>
+                                            <p class="text-xs text-gray-500">James Clear</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-xs text-gray-500">BK-2024-0203</td>
+                                <td class="px-6 py-4 text-gray-600">May 20, 2026</td>
+                                <td class="px-6 py-4 text-gray-600">Jun 03, 2026</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-200">
+                                        In Possession
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 — In Possession -->
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-14 bg-gray-100 rounded flex items-center justify-center text-gray-300 flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Sapiens: A Brief History of Humankind</p>
+                                            <p class="text-xs text-gray-500">Yuval Noah Harari</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-xs text-gray-500">BK-2024-0055</td>
+                                <td class="px-6 py-4 text-gray-600">May 22, 2026</td>
+                                <td class="px-6 py-4 text-gray-600">Jun 05, 2026</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-200">
+                                        In Possession
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- External Scripts -->
+    <script src="js/global.js" defer></script>
+</body>
+</html>

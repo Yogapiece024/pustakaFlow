@@ -1,0 +1,14 @@
+/* Base styles if needed, mostly handled by Tailwind */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F9FAFB;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: 'Lora', serif;
+}
+
+/* Subtle hover transition */
+.nav-link {
+    transition: all 0.2s ease-in-out;
+}
