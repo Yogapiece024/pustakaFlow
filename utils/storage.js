@@ -1,23 +1,14 @@
 // utils/storage.js
+// Uses memoryStorage for Vercel serverless compatibility.
+// Files are available as req.file.buffer (Buffer) instead of a path.
 const multer = require('multer');
 const path = require('path');
 
-// Destination folder (relative to project root)
+// Keep uploadFolder for local reference / legacy use — not written on Vercel
 const uploadFolder = path.join(__dirname, '..', 'uploads');
 
-// Multer storage configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadFolder);
-  },
-  filename: function (req, file, cb) {
-    // Preserve original name with timestamp to avoid collisions
-    const ext = path.extname(file.originalname);
-    const base = path.basename(file.originalname, ext);
-    const timestamp = Date.now();
-    cb(null, `${base}-${timestamp}${ext}`);
-  }
-});
+// In-memory storage (Vercel's file system is read-only)
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 
