@@ -1,4 +1,3 @@
-// server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -18,18 +17,28 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files (frontend HTML/CSS/JS)
 app.use(express.static(path.join(__dirname)));
 
+// --- TAMBAHAN PINTU MASUK FRONTEND ---
+// Jika membuka halaman utama web, arahkan ke index.html (Dashboard / Auth)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Menangani navigasi antar halaman HTML lainnya (misal /catalog.html)
+app.get('/:page.html', (req, res) => {
+  res.sendFile(path.join(__dirname, `${req.params.page}.html`));
+});
+// -------------------------------------
+
 // Simple health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK' });
 });
 
 // Upload endpoint (for book cover or PDF)
-// Uses memoryStorage — file is in req.file.buffer, not on disk
 app.post('/api/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
-  // With memoryStorage, filename and size are available; buffer holds the bytes
   res.json({
     filename: req.file.originalname,
     mimetype: req.file.mimetype,
@@ -57,7 +66,6 @@ app.get('/api/books/:serial_code', async (req, res) => {
 });
 
 // Only start the HTTP server in local development.
-// Vercel imports this module and uses the exported app directly.
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`🚀 Server listening on http://localhost:${PORT}`);
@@ -65,4 +73,3 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = app;
-
