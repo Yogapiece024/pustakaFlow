@@ -111,42 +111,51 @@
       <!-- Grid of uploaded books -->
       <div id="uploadsGrid"
            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Example Card (keep this as a template – it will be cloned by JS) -->
-        <div class="flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100">
-          <div class="w-full h-40 bg-gray-300 rounded mb-3"></div>
-          <h3 class="font-medium text-gray-800">Uploaded Book Title</h3>
-          <p class="text-sm text-gray-500">Serial: USR-2026-001</p>
+        
+        <div class="flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md">
+          <img src="image/anna-katharine.png" alt="Cover" class="w-full h-48 object-cover object-top rounded mb-3 border border-gray-200">
+          <h3 class="font-medium text-gray-800 truncate">The Sword of Damocles</h3>
+          <p class="text-sm text-gray-500">Serial: B-001</p>
         </div>
+
+        <div class="flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md">
+          <img src="image/catherine-louisa.png" alt="Cover" class="w-full h-48 object-cover object-top rounded mb-3 border border-gray-200">
+          <h3 class="font-medium text-gray-800 truncate">Short Fiction</h3>
+          <p class="text-sm text-gray-500">Serial: B-002</p>
+        </div>
+
+        <div class="flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md">
+          <img src="image/charles-brockden.png" alt="Cover" class="w-full h-48 object-cover object-top rounded mb-3 border border-gray-200">
+          <h3 class="font-medium text-gray-800 truncate">Wieland</h3>
+          <p class="text-sm text-gray-500">Serial: B-003</p>
+        </div>
+
+        <div class="flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100 transition-all hover:shadow-md">
+          <img src="image/charlotte-perkins.png" alt="Cover" class="w-full h-48 object-cover object-top rounded mb-3 border border-gray-200">
+          <h3 class="font-medium text-gray-800 truncate">Moving The Mountain</h3>
+          <p class="text-sm text-gray-500">Serial: B-004</p>
+        </div>
+
       </div>
     </section>
 
     <section id="content-borrowed"
              class="tab-content hidden">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Overdue Book Card -->
-        <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
-          <div class="w-16 h-24 bg-gray-300 rounded"></div>
-          <div class="flex-1 ml-4">
-            <h3 class="font-medium text-gray-800">Overdue Book Title</h3>
-            <p class="text-sm text-gray-500">Due: 2023-12-01</p>
-            <span class="flex items-center text-red-600 mt-1">
-              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a.75.75 0 00-1.5 0v4a.75.75 0 00.22.53l2.5 2.5a.75.75 0 001.06-1.06L10.75 11z"
-                      clip-rule="evenodd"/>
-              </svg>
-              Overdue
-            </span>
-          </div>
-        </div>
-
         <!-- In‑Possession Book Card -->
-        <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
-          <div class="w-16 h-24 bg-gray-300 rounded"></div>
-          <div class="flex-1 ml-4">
-            <h3 class="font-medium text-gray-800">Current Book Title</h3>
-            <p class="text-sm text-gray-500">Due: 2024-12-31</p>
-            <span class="text-slate-500 mt-1">In Possession</span>
+        <div class="flex flex-col p-4 bg-white rounded-xl shadow-sm border border-amber-200 bg-amber-50/30">
+          <div class="flex items-start gap-4">
+            <img src="image/claude-mckay.png" alt="Cover" class="w-16 h-24 object-cover rounded shadow-sm border border-amber-100">
+            <div class="flex-1 min-w-0">
+              <h3 class="font-medium text-gray-900 leading-tight truncate">Banjo</h3>
+              <p class="text-xs text-gray-500 mt-1">Due: 2026-10-15</p>
+              <div class="mt-2.5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold border bg-amber-100 text-amber-800 border-amber-200 tracking-wide uppercase">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                  Dipinjam
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

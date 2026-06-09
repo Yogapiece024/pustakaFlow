@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "title": "The Sword of Damocles",
+    "author": "Anna Katharine Green",
+    "cover_path": "image/anna-katharine.png",
+    "epub_path": "ebooks/anna-katharine-green_the-sword-of-damocles.epub",
+    "serial_code": "B-001",
+    "status": "Tersedia"
+  },
+  {
+    "id": 2,
+    "title": "Short Fiction",
+    "author": "Catherine Louisa Pirkis",
+    "cover_path": "image/catherine-louisa.png",
+    "epub_path": "ebooks/catherine-louisa-pirkis_short-fiction.epub",
+    "serial_code": "B-002",
+    "status": "Dipinjam"
+  },
+  {
+    "id": 3,
+    "title": "Wieland",
+    "author": "Charles Brockden Brown",
+    "cover_path": "image/charles-brockden.png",
+    "epub_path": "ebooks/charles-brockden-brown_wieland.epub",
+    "serial_code": "B-003",
+    "status": "Tersedia"
+  },
+  {
+    "id": 4,
+    "title": "Moving The Mountain",
+    "author": "Charlotte Perkins Gilman",
+    "cover_path": "image/charlotte-perkins.png",
+    "epub_path": "ebooks/charlotte-perkins-gilman_moving-the-mountain.epub",
+    "serial_code": "B-004",
+    "status": "Dipinjam"
+  },
+  {
+    "id": 5,
+    "title": "Banjo",
+    "author": "Claude McKay",
+    "cover_path": "image/claude-mckay.png",
+    "epub_path": "ebooks/claude-mckay_banjo.epub",
+    "serial_code": "B-005",
+    "status": "Dipinjam"
+  },
+  {
+    "id": 6,
+    "title": "Bel Ami",
+    "author": "Guy de Maupassant",
+    "cover_path": "image/guy-de-maupassant.png",
+    "epub_path": "ebooks/guy-de-maupassant_bel-ami_vizetelly-and-company.epub",
+    "serial_code": "B-006",
+    "status": "Tersedia"
+  },
+  {
+    "id": 7,
+    "title": "The Village",
+    "author": "Ivan Bunin",
+    "cover_path": "image/ivan-bunin.png",
+    "epub_path": "ebooks/ivan-bunin_the-village_isabel-f-hapgood.epub",
+    "serial_code": "B-007",
+    "status": "Tidak Tersedia"
+  },
+  {
+    "id": 8,
+    "title": "The Rover",
+    "author": "Joseph Conrad",
+    "cover_path": "image/joseph-conrad.png",
+    "epub_path": "ebooks/joseph-conrad_the-rover.epub",
+    "serial_code": "B-008",
+    "status": "Tidak Tersedia"
+  },
+  {
+    "id": 9,
+    "title": "Said The Fisherman",
+    "author": "Marmaduke Pickthall",
+    "cover_path": "image/marmaduke-pickthall.png",
+    "epub_path": "ebooks/marmaduke-pickthall_said-the-fisherman.epub",
+    "serial_code": "B-009",
+    "status": "Tersedia"
+  },
+  {
+    "id": 10,
+    "title": "The Great Illusion",
+    "author": "Norman Angell",
+    "cover_path": "image/norman-angell.png",
+    "epub_path": "ebooks/norman-angell_the-great-illusion.epub",
+    "serial_code": "B-010",
+    "status": "Tidak Tersedia"
+  },
+  {
+    "id": 11,
+    "title": "Poetry",
+    "author": "Robert Louis Stevenson",
+    "cover_path": "image/robert-louis.png",
+    "epub_path": "ebooks/robert-louis-stevenson_poetry.epub",
+    "serial_code": "B-011",
+    "status": "Tersedia"
+  },
+  {
+    "id": 12,
+    "title": "My Life In China And America",
+    "author": "Yung Wing",
+    "cover_path": "image/yung-wing.png",
+    "epub_path": "ebooks/yung-wing_my-life-in-china-and-america.epub",
+    "serial_code": "B-012",
+    "status": "Tidak Tersedia"
+  }
+]

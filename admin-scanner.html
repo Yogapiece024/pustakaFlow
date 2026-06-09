@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- Same head as index.html -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PustakaFlow - Admin Circulation</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,9 +38,59 @@
             }
         }
     </script>
+    <!-- HTML5-QRCODE Scanner CDN -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        /* Custom overrides for html5-qrcode scanner UI to make it look premium */
+        #reader {
+            border: none !important;
+            padding: 10px !important;
+        }
+
+        #reader__dashboard_section_csr button,
+        #reader__dashboard_section_swaplink,
+        #reader button {
+            background-color: #111827 !important;
+            /* Navy 900 */
+            color: white !important;
+            padding: 8px 16px !important;
+            border-radius: 8px !important;
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease-in-out !important;
+            cursor: pointer !important;
+            border: 1px solid #1f2937 !important;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+        }
+
+        #reader__dashboard_section_csr button:hover,
+        #reader__dashboard_section_swaplink:hover,
+        #reader button:hover {
+            background-color: #374151 !important;
+            /* gray 700 */
+            border-color: #374151 !important;
+        }
+
+        #reader select {
+            background-color: #F9FAFB !important;
+            border: 1px solid #D1D5DB !important;
+            border-radius: 8px !important;
+            padding: 8px !important;
+            font-size: 0.875rem !important;
+            color: #1F2937 !important;
+            margin: 10px 0 !important;
+            outline: none !important;
+        }
+
+        #reader select:focus {
+            border-color: #111827 !important;
+        }
+    </style>
+
     <!-- External CSS -->
     <link rel="stylesheet" href="css/global.css">
 </head>
+
 <body class="flex h-screen overflow-hidden bg-mainbg text-gray-800">
 
     <!-- Left Sidebar -->
@@ -50,13 +102,16 @@
 
         <!-- Navigation Links -->
         <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            <a href="index.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+            <a href="index.html"
+                class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
                 <span class="text-sm font-medium">Dashboard</span>
             </a>
-            <a href="catalog.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+            <a href="catalog.html"
+                class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
                 <span class="text-sm font-medium">Catalog</span>
             </a>
-            <a href="my-library.html" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
+            <a href="my-library.html"
+                class="nav-link flex items-center px-4 py-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded-md border border-transparent hover:border-gray-700">
                 <span class="text-sm font-medium">My Library</span>
             </a>
             <!-- Active State -->
@@ -68,12 +123,14 @@
         <!-- Profile / Logout -->
         <div class="p-4 border-t border-gray-800">
             <div class="flex items-center gap-3 px-2">
-                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-silver-300 font-serif font-bold text-sm border border-gray-600">
+                <div
+                    class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-silver-300 font-serif font-bold text-sm border border-gray-600">
                     A
                 </div>
                 <div class="flex flex-col">
                     <span class="text-sm font-medium text-gray-300">Alex (Member)</span>
-                    <a href="#" class="logout-btn text-xs text-gray-500 hover:text-gray-400 cursor-pointer transition-colors duration-200">Logout</a>
+                    <a href="#"
+                        class="logout-btn text-xs text-gray-500 hover:text-gray-400 cursor-pointer transition-colors duration-200">Logout</a>
                 </div>
             </div>
         </div>
@@ -83,147 +140,80 @@
     <main class="flex-1 flex flex-col overflow-hidden bg-mainbg">
         <!-- Topbar -->
         <header class="h-16 bg-white border-b border-gray-200 flex items-center px-8 justify-between shrink-0">
-            <h2 class="text-xl font-serif font-medium text-gray-800">Circulation & Checkout</h2>
+            <h2 class="text-xl font-serif font-medium text-gray-800">Barcode Scanner</h2>
             <div class="flex items-center gap-4">
-                <span class="text-sm text-slate-500 font-medium">Terminal ID: TRX-992</span>
+                <span class="text-sm text-slate-500 font-medium">Database Status Check</span>
             </div>
         </header>
 
-        <!-- Split Screen Content -->
-        <div class="flex-1 overflow-hidden p-8 flex gap-8">
-            
-            <!-- Left: Tools Area -->
-            <div class="w-1/2 flex flex-col gap-6">
+        <!-- Main Centered Content -->
+        <div class="flex-1 overflow-y-auto p-8 flex justify-center items-start">
+
+            <!-- Dedicated Scanner Area (Centered, max-w-2xl) -->
+            <div class="w-full max-w-2xl flex flex-col gap-6">
                 <!-- Scanner Area Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 flex-1 flex flex-col p-8 relative overflow-hidden min-h-[400px]">
-                    
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-gray-200 flex flex-col p-8 relative overflow-hidden min-h-[500px]">
+
                     <!-- Decorative scanner lines -->
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-50"></div>
-                    
-                    <div class="mb-8 flex justify-between items-start">
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-50">
+                    </div>
+
+                    <div class="mb-6 flex justify-between items-start">
                         <div>
                             <h3 class="text-lg font-medium text-gray-900 flex items-center gap-2">
-                                Barcode Scanner
+                                Scan Book Barcode
                             </h3>
-                            <p class="text-sm text-gray-500 mt-1">Scan member ID or book barcode to process transaction.</p>
+                            <p class="text-sm text-gray-500 mt-1">Point your camera at a book's barcode or QR code to
+                                verify its real-time library status.</p>
                         </div>
                     </div>
 
-                    <!-- Scanner Focus Area -->
-                    <div class="flex-1 flex flex-col items-center justify-center">
-                        <div class="relative w-full max-w-md">
-                            
-                            <!-- Pulsing Ready Indicator -->
-                            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+                    <!-- Scanner Container -->
+                    <div class="flex-1 flex flex-col items-center justify-start space-y-6 pt-4">
+                        <div class="w-full max-w-md relative">
+                            <!-- Pulsing Active Indicator -->
+                            <div class="mb-4 flex flex-col items-center gap-2" id="scannerIndicator">
                                 <span class="relative flex h-3 w-3">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-slate-500"></span>
+                                    <span
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-slate-500"></span>
                                 </span>
-                                <span class="text-xs font-medium text-slate-500 tracking-wider uppercase">System Ready</span>
+                                <span class="text-xs font-medium text-slate-500 tracking-wider uppercase">Camera
+                                    Active</span>
                             </div>
 
-                            <!-- Input Field -->
-                            <input type="text" autofocus class="w-full text-center text-3xl font-mono tracking-widest text-gray-800 bg-gray-50 border-2 border-slate-300 rounded-xl py-6 focus:outline-none focus:border-navy-900 focus:ring-4 focus:ring-navy-900/10 transition-all placeholder-gray-300 shadow-inner" placeholder="|| ||| || |||">
+                            <!-- HTML5 QR Code Reader Feed -->
+                            <div id="reader"
+                                class="overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-inner"></div>
                             
-                        </div>
-                    </div>
-
-                    <div class="mt-8 text-center text-sm text-gray-400">
-                        Manual entry supported. Press Enter to submit.
-                    </div>
-                </div>
-
-                <!-- Barcode Generator Card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 shrink-0 flex flex-col p-6">
-                    <h3 class="text-base font-medium text-gray-900 mb-4">Barcode Generator</h3>
-                    <div class="flex gap-6 items-center">
-                        <div class="flex-1">
-                            <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Book ID</label>
-                            <input type="text" class="w-full text-sm text-gray-800 bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-navy-900 focus:ring-1 focus:ring-navy-900 transition-colors" placeholder="e.g. BK-2024-001">
-                        </div>
-                        <div class="w-40 h-16 bg-white rounded-lg flex flex-col items-center justify-center border border-gray-200 shadow-sm relative overflow-hidden shrink-0">
-                            <!-- Placeholder barcode graphic -->
-                            <div class="flex gap-0.5 h-8 items-end opacity-70">
-                                <div class="w-0.5 h-full bg-gray-800"></div><div class="w-1 h-full bg-gray-800"></div><div class="w-0.5 h-full bg-gray-800"></div><div class="w-0.5 h-6 bg-gray-800"></div><div class="w-1 h-full bg-gray-800"></div><div class="w-0.5 h-full bg-gray-800"></div><div class="w-1 h-6 bg-gray-800"></div><div class="w-0.5 h-full bg-gray-800"></div><div class="w-1 h-full bg-gray-800"></div>
-                            </div>
-                            <span class="text-[9px] text-gray-500 mt-0.5 font-mono">BK-2024-001</span>
-                        </div>
-                    </div>
-                    <div class="mt-5 flex justify-end">
-                        <button class="px-4 py-2 border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2">
-                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            Download Label
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right: Scanned Items List -->
-            <div class="w-1/2 flex flex-col">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 flex-1 flex flex-col overflow-hidden">
-                    
-                    <!-- Header -->
-                    <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center shrink-0">
-                        <h3 class="font-medium text-gray-900">Current Transaction</h3>
-                        <span class="px-2.5 py-1 text-xs font-medium bg-slate-200 text-slate-700 rounded-full">3 Items</span>
-                    </div>
-
-                    <!-- Items List -->
-                    <div class="flex-1 overflow-y-auto p-6">
-                        <!-- Member Info Card (usually scanned first) -->
-                        <div class="mb-6 p-4 rounded-xl border border-gray-200 bg-slate-50 flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 font-medium shadow-sm">
-                                SC
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-900">Sarah Connor</p>
-                                <p class="text-xs text-gray-500">Member ID: MMB-84729</p>
-                            </div>
-                            <div class="ml-auto">
-                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">Verified</span>
-                            </div>
-                        </div>
-
-                        <!-- Scanned Books -->
-                        <div class="space-y-4">
-                            <!-- Item 1 -->
-                            <div class="flex gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 group">
-                                <div class="w-12 h-16 bg-gray-200 rounded text-gray-400 flex items-center justify-center shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253"></path></svg>
+                            <!-- Custom File Upload Option -->
+                            <div class="mt-4 flex flex-col items-center gap-2">
+                                <div class="flex items-center gap-2 w-full max-w-xs mb-1">
+                                    <div class="h-px bg-gray-200 flex-1"></div>
+                                    <span class="text-xs text-gray-400 font-medium uppercase tracking-wider">ATAU</span>
+                                    <div class="h-px bg-gray-200 flex-1"></div>
                                 </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">System Design Interview</p>
-                                    <p class="text-xs text-gray-500 mt-1">Barcode: B-492011</p>
-                                    <p class="text-xs text-navy-900 mt-1 font-medium">Checkout</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove item">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
+                                <label class="w-full max-w-xs flex justify-center items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg cursor-pointer hover:bg-gray-50 transition-colors shadow-sm focus-within:ring-2 focus-within:ring-navy-900 focus-within:ring-offset-2">
+                                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                    Upload Gambar Barcode
+                                    <input type="file" id="barcodeFileInput" class="hidden" accept="image/*">
+                                </label>
                             </div>
+                            
+                            <!-- Hidden reader for file scanning -->
+                            <div id="hiddenReader" class="hidden"></div>
+                        </div>
 
-                            <!-- Item 2 -->
-                            <div class="flex gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 group">
-                                <div class="w-12 h-16 bg-gray-200 rounded text-gray-400 flex items-center justify-center shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253"></path></svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Introduction to Algorithms</p>
-                                    <p class="text-xs text-gray-500 mt-1">Barcode: B-384912</p>
-                                    <p class="text-xs text-emerald-600 mt-1 font-medium">Return</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove item">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
+                        <!-- Scan Status / Book Info Output -->
+                        <div id="scanResult" class="w-full max-w-md transition-all duration-300">
+                            <!-- Default/Placeholder State -->
+                            <div
+                                class="p-4 bg-gray-50 border border-gray-100 rounded-xl text-center text-sm text-gray-500">
+                                Scan a book barcode/QR code to view database status.
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Footer / Actions -->
-                    <div class="p-6 border-t border-gray-100 shrink-0 bg-white">
-                        <button class="w-full py-3.5 px-4 bg-navy-900 hover:bg-gray-800 text-white text-sm font-medium rounded-xl shadow-md transition-all flex items-center justify-center gap-2 transform hover:scale-[1.02]">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Confirm Transaction
-                        </button>
                     </div>
                 </div>
             </div>
@@ -235,4 +225,5 @@
     <script src="js/global.js" defer></script>
     <script src="js/scanner.js" defer></script>
 </body>
+
 </html>

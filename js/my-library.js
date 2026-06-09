@@ -32,29 +32,121 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Add New Book modal ───────────────────────────────────────────────────
+    // ── Add New Book modal & Persisted Uploads ────────────────────────────────
     const addBookBtn   = document.getElementById('addBookBtn');
     const modal        = document.getElementById('addBookModal');
     const closeModal   = document.getElementById('closeAddBookModal');
+    const cancelAddBook = document.getElementById('cancelAddBook');
     const addBookForm  = document.getElementById('addBookForm');
     const uploadsGrid  = document.getElementById('uploadsGrid');
+
+    // Default books array if localStorage is empty
+    const defaultBooks = [
+        {
+            title: "The Sword of Damocles",
+            author: "Anna Katharine Green",
+            serial: "B-001",
+            cover_path: "image/anna-katharine.png"
+        },
+        {
+            title: "Short Fiction",
+            author: "Catherine Louisa Pirkis",
+            serial: "B-002",
+            cover_path: "image/catherine-louisa.png"
+        },
+        {
+            title: "Wieland",
+            author: "Charles Brockden Brown",
+            serial: "B-003",
+            cover_path: "image/charles-brockden.png"
+        },
+        {
+            title: "Moving The Mountain",
+            author: "Charlotte Perkins Gilman",
+            serial: "B-004",
+            cover_path: "image/charlotte-perkins.png"
+        }
+    ];
+
+    // Helper untuk mengambil data buku terunggah dari localStorage
+    function getUploadedBooks() {
+        const stored = localStorage.getItem('pustakaflow_my_books');
+        if (!stored) {
+            // Kita SET localStorage dengan defaultBooks yang baru
+            localStorage.setItem('pustakaflow_my_books', JSON.stringify(defaultBooks));
+            return defaultBooks;
+        }
+        try {
+            const parsed = JSON.parse(stored);
+            // Paksa override jika isinya masih placeholder lama
+            if (parsed.length > 0 && parsed[0].title === "Uploaded Book Title") {
+                localStorage.setItem('pustakaflow_my_books', JSON.stringify(defaultBooks));
+                return defaultBooks;
+            }
+            return parsed;
+        } catch (e) {
+            console.error("Gagal parse localStorage:", e);
+            return defaultBooks;
+        }
+    }
+
+    // Helper untuk menyimpan data buku terunggah ke localStorage
+    function saveUploadedBooks(books) {
+        localStorage.setItem('pustakaflow_my_books', JSON.stringify(books));
+    }
+
+    // Fungsi untuk me-render daftar buku terunggah ke dalam grid
+    function renderUploadedBooks() {
+        if (!uploadsGrid) return;
+        
+        const books = getUploadedBooks();
+        uploadsGrid.innerHTML = '';
+
+        books.forEach(book => {
+            const card = document.createElement('div');
+            card.className = 'flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all cursor-pointer';
+            
+            const coverImage = book.cover_path 
+                ? `<img src="${book.cover_path}" alt="Cover" class="w-full h-48 object-cover object-top rounded mb-3 border border-gray-200">`
+                : `<div class="w-full h-48 bg-gray-100 rounded mb-3 flex items-center justify-center text-gray-300 border border-gray-200">
+                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                     </svg>
+                   </div>`;
+
+            card.innerHTML = `
+                ${coverImage}
+                <h3 class="font-medium text-gray-800 truncate">${book.title}</h3>
+                <p class="text-xs text-gray-500 mt-0.5 truncate">${book.author}</p>
+                <p class="text-xs text-slate-400 mt-1 font-mono">Serial: ${book.serial}</p>
+            `;
+            uploadsGrid.appendChild(card);
+        });
+    }
+
+    // Jalankan render awal saat halaman dimuat
+    renderUploadedBooks();
 
     if (addBookBtn && modal) {
         addBookBtn.addEventListener('click', () => {
             modal.classList.remove('hidden');
         });
 
-        closeModal && closeModal.addEventListener('click', () => {
+        const hideModal = () => {
             modal.classList.add('hidden');
-        });
+            addBookForm.reset();
+        };
 
-        // Close on backdrop click
+        closeModal && closeModal.addEventListener('click', hideModal);
+        cancelAddBook && cancelAddBook.addEventListener('click', hideModal);
+
+        // Tutup modal jika mengklik di luar area modal (backdrop)
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.add('hidden');
+            if (e.target === modal) hideModal();
         });
     }
 
-    if (addBookForm && uploadsGrid) {
+    if (addBookForm) {
         addBookForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -62,27 +154,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const author = document.getElementById('bookAuthor').value.trim() || 'Unknown Author';
             const serial = `USR-${Math.floor(10000 + Math.random() * 90000)}`;
 
-            // Build new card
-            const card = document.createElement('div');
-            card.className = 'flex flex-col p-4 bg-white rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors';
-            card.innerHTML = `
-                <div class="w-full h-40 bg-gray-100 rounded mb-3 flex items-center justify-center text-gray-300">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13
-                               C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13
-                               C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13
-                               C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
-                </div>
-                <h3 class="font-medium text-gray-800 font-serif leading-tight">${title}</h3>
-                <p class="text-xs text-gray-500 mt-0.5">${author}</p>
-                <p class="text-xs text-slate-400 mt-1 font-mono">Serial: ${serial}</p>
-            `;
+            const newBook = { title, author, serial };
+            const books = getUploadedBooks();
+            books.push(newBook);
+            saveUploadedBooks(books);
 
-            uploadsGrid.appendChild(card);
+            // Render ulang isi grid
+            renderUploadedBooks();
 
-            // Reset form & close modal
+            // Reset form dan tutup modal
             addBookForm.reset();
             modal && modal.classList.add('hidden');
         });
