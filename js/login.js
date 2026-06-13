@@ -1,17 +1,13 @@
-// js/login.js
-// ── Hardcoded credentials ──
 const CREDENTIALS = [
     { username: 'Asep', password: 'Tukangbatagor123', role: 'admin' },
     { username: 'cecep', password: 'Tukangbubur123', role: 'user' },
 ];
 
-// If already logged in, skip to dashboard
 if (localStorage.getItem('isLoggedIn') === 'true') {
     window.location.href = 'index.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM references
     const loginForm = document.getElementById('loginForm');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
@@ -23,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const togglePwdBtn = document.getElementById('togglePassword');
     const eyeIcon = document.getElementById('eyeIcon');
 
-    // ── Show / Hide password toggle ──
     let passwordVisible = false;
     togglePwdBtn.addEventListener('click', () => {
         passwordVisible = !passwordVisible;
@@ -33,59 +28,46 @@ document.addEventListener('DOMContentLoaded', () => {
             : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
     });
 
-    // ── Form submit handler ──
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const enteredUser = usernameInput.value.trim();
         const enteredPass = passwordInput.value;
 
-        // Hide previous error
         errorBox.classList.add('hidden');
 
-        // Show loading state
         loginBtnText.textContent = 'Signing in…';
         loginSpinner.classList.remove('hidden');
         loginBtn.disabled = true;
 
-        // Simulate a tiny delay for UX (feels more real)
         setTimeout(() => {
-            // Validate against hardcoded credentials
             const match = CREDENTIALS.find(
                 (c) => c.username === enteredUser && c.password === enteredPass
             );
 
             if (match) {
-                // ✅ Success – store in localStorage
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userRole', match.role);
                 localStorage.setItem('userName', match.username);
-
-                // Also store the legacy key so existing global.js guard doesn't kick us out
                 localStorage.setItem('pustakaflow_user', JSON.stringify({
                     name: match.username,
                     email: match.username + '@pustakaflow.local',
                     role: match.role,
                 }));
 
-                // Redirect to dashboard
                 window.location.href = 'index.html';
             } else {
-                // ❌ Failed – show error with shake
                 errorText.textContent = 'Invalid username or password. Please try again.';
                 errorBox.classList.remove('hidden');
 
-                // Shake the card
                 const card = loginForm.closest('.login-card');
                 card.classList.add('shake');
                 setTimeout(() => card.classList.remove('shake'), 500);
 
-                // Reset button
                 loginBtnText.textContent = 'Sign In';
                 loginSpinner.classList.add('hidden');
                 loginBtn.disabled = false;
 
-                // Focus password field
                 passwordInput.value = '';
                 passwordInput.focus();
             }
