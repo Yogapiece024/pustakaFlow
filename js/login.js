@@ -1,6 +1,7 @@
+// v2 - updated credentials
 const CREDENTIALS = [
-    { username: 'Asep', password: 'Tukangbatagor123', role: 'admin' },
-    { username: 'cecep', password: 'Tukangbubur123', role: 'user' },
+    { username: 'admin', password: 'admin123', role: 'admin' },
+    { username: 'user', password: 'user123', role: 'user' },
 ];
 
 try {
