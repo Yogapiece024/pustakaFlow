@@ -269,22 +269,62 @@ function hideBookModal() {
   }, 300);
 }
 
-/** Load books from local JSON file */
+/** Load books from local JSON file and localStorage */
 async function loadLocalBooks() {
   showLoader();
+
+  let jsonData = [];
   try {
     const res = await fetch("books.json");
-    if (!res.ok) throw new Error("Network response was not ok");
-    const data = await res.json();
-    
-    allBooks = data;
-    
-    renderBookCards(allBooks);
+    if (res.ok) {
+      jsonData = await res.json();
+    } else {
+      console.warn("books.json not found or could not be loaded.");
+    }
   } catch (err) {
-    console.error("Failed to load local books:", err);
+    console.error("Failed to fetch books.json:", err);
+  }
+
+  // Fetch from localStorage regardless of books.json success
+  let myBooks = [];
+  let customBooks = [];
+  try {
+    myBooks = JSON.parse(localStorage.getItem('pustakaflow_my_books') || '[]');
+    customBooks = JSON.parse(localStorage.getItem('pustakaflow_custom_books') || '[]');
+  } catch (err) {
+    console.error("Failed to parse books from localStorage:", err);
+  }
+
+  // Combine all books, avoiding duplicates
+  const jsonDataSerials = new Set();
+  jsonData.forEach(b => {
+    const serial = b.serial_code || b.serial;
+    if (serial) jsonDataSerials.add(serial);
+  });
+
+  const filteredMyBooks = myBooks.filter(b => {
+    const serial = b.serial_code || b.serial;
+    return !serial || !jsonDataSerials.has(serial);
+  });
+
+  const filteredCustomBooks = customBooks.filter(b => {
+    const serial = b.serial_code || b.serial;
+    return !serial || !jsonDataSerials.has(serial);
+  });
+
+  // Ensure serial_code is present for modal lookup
+  [...filteredMyBooks, ...filteredCustomBooks].forEach(b => {
+    if (!b.serial_code && b.serial) b.serial_code = b.serial;
+  });
+
+  allBooks = [...jsonData, ...filteredMyBooks, ...filteredCustomBooks];
+
+  if (allBooks.length > 0) {
+    renderBookCards(allBooks);
+  } else {
     const grid = document.getElementById("catalogGrid");
     if (grid) {
-      grid.innerHTML = `<div class="col-span-full py-12 text-center text-rose-600">Unable to load books. Please check the file.</div>`;
+      grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500">No books found in catalog.</div>`;
     }
   }
 }
@@ -333,4 +373,3 @@ function initCatalog() {
 }
 
 document.addEventListener("DOMContentLoaded", initCatalog);
-
