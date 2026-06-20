@@ -81,9 +81,7 @@ async function processScannedCode(barcode) {
             return;
         }
 
-        const defaultBooks = await response.json();
-        const customBooks = JSON.parse(localStorage.getItem('pustakaflow_custom_books') || '[]');
-        const books = [...defaultBooks, ...customBooks];
+        const books = await response.json();
         
         // Normalize barcode to avoid spacing/case issues
         const normalizedBarcode = barcode.trim().toUpperCase();
@@ -95,13 +93,6 @@ async function processScannedCode(barcode) {
         if (!book) {
             showErrorState(`Barcode <strong>"${barcode}"</strong> tidak terdaftar di sistem. Pastikan ejaannya pas (misal: B-001).`, barcode);
             return;
-        }
-
-        // --- 1. DATA INITIALIZATION & MERGE ---
-        const savedStatuses = JSON.parse(localStorage.getItem('bookStatuses') || '{}');
-        if (savedStatuses[barcode]) {
-            // Override JSON status with the one from localStorage
-            book.status = savedStatuses[barcode];
         }
 
         showSuccessState(book, barcode);
@@ -216,16 +207,7 @@ function showSuccessState(book, barcode) {
     document.getElementById('updateStatusBtn').addEventListener('click', () => {
         const newStatus = document.getElementById('statusSelect').value;
         
-        // Retrieve current statuses from localStorage
-        const savedStatuses = JSON.parse(localStorage.getItem('bookStatuses') || '{}');
-        
-        // Map the serial_code to the new status
-        savedStatuses[barcode] = newStatus;
-        
-        // Save back to localStorage
-        localStorage.setItem('bookStatuses', JSON.stringify(savedStatuses));
-        
-        // Update local object memory
+        // Update in-memory only (no persistent storage)
         book.status = newStatus;
         
         // Re-render the UI so the badge changes color immediately

@@ -33,6 +33,36 @@ const bookDetailsData = {
     isbn: "978-0140448443",
     shelf: "Section FIC, B-2",
     synopsis: "Bel-Ami is the story of a corrupt journalist, Georges Duroy, who rises to power in Paris by manipulating influential women, written by Guy de Maupassant."
+  },
+  "B-007": {
+    isbn: "978-0486437729",
+    shelf: "Section FIC, B-3",
+    synopsis: "The Village is a powerful novella by Nobel Prize-winning author Ivan Bunin, depicting the decay of rural Russian life in the early 20th century."
+  },
+  "B-008": {
+    isbn: "978-0199539031",
+    shelf: "Section FIC, C-1",
+    synopsis: "The Rover is Joseph Conrad's final completed novel, a tale of adventure and loyalty set during the French Revolution on the Mediterranean coast."
+  },
+  "B-009": {
+    isbn: "978-1419188053",
+    shelf: "Section FIC, C-2",
+    synopsis: "Said the Fisherman is a vivid novel by Marmaduke Pickthall set in the Middle East, exploring the clash of cultures and the quest for fortune."
+  },
+  "B-010": {
+    isbn: "978-1505593495",
+    shelf: "Section SOC, D-1",
+    synopsis: "The Great Illusion is Norman Angell's influential work arguing that war between industrial nations is economically futile."
+  },
+  "B-011": {
+    isbn: "978-0140434248",
+    shelf: "Section POE, A-1",
+    synopsis: "A comprehensive collection of poetry by Robert Louis Stevenson, showcasing his lyrical talent beyond his famous adventure novels."
+  },
+  "B-012": {
+    isbn: "978-1420951349",
+    shelf: "Section BIO, A-1",
+    synopsis: "My Life in China and America is the autobiography of Yung Wing, the first Chinese student to graduate from an American university (Yale, 1854)."
   }
 };
 
@@ -70,14 +100,7 @@ function renderBookCards(books) {
     return;
   }
 
-  // Load status overrides from localStorage
-  const savedStatuses = JSON.parse(localStorage.getItem('bookStatuses') || '{}');
-
   books.forEach((book) => {
-    // Apply status override
-    if (book.serial_code && savedStatuses[book.serial_code]) {
-      book.status = savedStatuses[book.serial_code];
-    }
 
     const title = book.title || "Untitled";
     const author = book.author || "Unknown Author";
@@ -142,8 +165,7 @@ function openBookModal(book) {
   const modalPanel = document.getElementById('modalPanel');
   if (!bookModal || !modalPanel) return;
 
-  const savedStatuses = JSON.parse(localStorage.getItem('bookStatuses') || '{}');
-  const status = savedStatuses[book.serial_code] || book.status || "Tersedia";
+  const status = book.status || "Tersedia";
   const normalizedStatus = status.toLowerCase().trim();
 
   let badgeColor = 'bg-gray-500';
@@ -217,14 +239,8 @@ function openBookModal(book) {
     
     if (isAvailable) {
       document.getElementById('borrowModalBtn').addEventListener('click', () => {
-        // Save status update
-        const statuses = JSON.parse(localStorage.getItem('bookStatuses') || '{}');
-        statuses[book.serial_code] = "Dipinjam";
-        localStorage.setItem('bookStatuses', JSON.stringify(statuses));
-        
         hideBookModal();
-        loadLocalBooks();
-        alert(`Buku "${book.title}" berhasil dipinjam!`);
+        alert(`Buku "${book.title}" berhasil dipinjam! Silakan ambil di rak ${details.shelf}.`);
       });
     }
   }
@@ -261,11 +277,7 @@ async function loadLocalBooks() {
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
     
-    // Load custom published books from localStorage
-    const customBooks = JSON.parse(localStorage.getItem('pustakaflow_custom_books') || '[]');
-    
-    // Merge
-    allBooks = [...data, ...customBooks];
+    allBooks = data;
     
     renderBookCards(allBooks);
   } catch (err) {
